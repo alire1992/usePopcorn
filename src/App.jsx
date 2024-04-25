@@ -1,7 +1,10 @@
 import { useState } from "react";
 
-import Main from "./components/Main";
 import NavBar from "./components/NavBar";
+import Logo from "./components/Logo";
+import NumResult from "./components/NumResult";
+import Search from "./components/Search";
+import Main from "./components/Main";
 import Box from "./components/Box";
 import Summary from "./components/Summary";
 import MovieList from "./components/MovieList";
@@ -58,7 +61,11 @@ export default function App() {
   const [watched, setWatched] = useState(tempWatchedData);
   return (
     <>
-      <NavBar />
+      <NavBar>
+        <Logo />
+        <Search />
+        <NumResult />
+      </NavBar>
       <Main>
         <Box>
           <MovieList movies={movies} />
