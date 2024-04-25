@@ -1,3 +1,4 @@
+import NumResult from "./NumResult";
 import Search from "./Search";
 
 function NavBar() {
@@ -8,9 +9,7 @@ function NavBar() {
         <h1>usePopcorn</h1>
       </div>
       <Search />
-      <p className="num-results">
-        Found <strong>X</strong> results
-      </p>
+      <NumResult />
     </nav>
   );
 }
