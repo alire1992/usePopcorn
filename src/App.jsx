@@ -64,7 +64,7 @@ export default function App() {
       <NavBar>
         <Logo />
         <Search />
-        <NumResult />
+        <NumResult numOfResault={movies.length} />
       </NavBar>
       <Main>
         <Box>
