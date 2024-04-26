@@ -1,4 +1,5 @@
 import { useState } from "react";
+import PropType from "prop-types";
 
 /* eslint-disable react/prop-types */
 const containerStyle = {
@@ -13,7 +14,7 @@ const starContainerStyle = {
 
 function StarRating({
   maxRating = 10,
-  size = "24px",
+  size = 24,
   color = "#ffd700",
   className = "",
   message = [],
@@ -61,8 +62,8 @@ function StarRating({
 
 function Star({ onClick, isFull = false, onHoverIn, onHoverOut, size, color }) {
   const starStyle = {
-    width: size,
-    height: size,
+    width: `${size}px`,
+    height: `${size}px`,
     display: "block",
     cursor: "pointer",
   };
@@ -103,5 +104,15 @@ function Star({ onClick, isFull = false, onHoverIn, onHoverOut, size, color }) {
     </div>
   );
 }
+
+StarRating.propTypes = {
+  maxRating: PropType.number,
+  size: PropType.number,
+  color: PropType.string,
+  className: PropType.string,
+  message: PropType.array,
+  defaultRating: PropType.number,
+  onSetRating: PropType.func,
+};
 
 export default StarRating;
