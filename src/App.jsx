@@ -9,6 +9,7 @@ import Box from "./components/Box";
 import Summary from "./components/Summary";
 import MovieList from "./components/MovieList";
 import Loader from "./components/Loader";
+import ErrorMessage from "./components/ErrorMessage";
 
 const KEY = "705b7876";
 
@@ -16,6 +17,7 @@ export default function App() {
   const [movies, setMovies] = useState([]);
   const [watched, setWatched] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     setIsLoading(true);
@@ -24,6 +26,12 @@ export default function App() {
       .then((data) => {
         setMovies(data?.Search);
         setIsLoading(false);
+        setError("");
+      })
+      .catch((e) => {
+        setIsLoading(false);
+        setError(e?.message);
+        throw new Error(e?.message);
       });
   }, []);
 
@@ -35,7 +43,18 @@ export default function App() {
         <NumResult numOfResault={movies?.length} />
       </NavBar>
       <Main>
-        <Box>{isLoading ? <Loader /> : <MovieList movies={movies} />}</Box>
+        <Box>
+          {/* {isLoading ? (
+            <Loader />
+          ) : error ? (
+            <ErrorMessage message={error} />
+          ) : (
+            <MovieList movies={movies} />
+          )} */}
+          {isLoading && <Loader />}
+          {error && <ErrorMessage message={error} />}
+          {!isLoading && !error && <MovieList movies={movies} />}
+        </Box>
 
         <Box>
           <>
