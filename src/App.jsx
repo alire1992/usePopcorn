@@ -20,19 +20,36 @@ export default function App() {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    setIsLoading(true);
-    fetch(`http://www.omdbapi.com/?apikey=${KEY}&s=evil`)
-      .then((res) => res.json())
-      .then((data) => {
-        setMovies(data?.Search);
+    // fetch(`http://www.omdbapi.com/?apikey=${KEY}&s=evil`)
+    //   .then((res) => res.json())
+    //   .then((data) => {
+    //     setMovies(data?.Search);
+    //     setIsLoading(false);
+    //     setError("");
+    //   })
+    //   .catch((e) => {
+    //     setIsLoading(false);
+    //     setError(e?.message);
+    //     throw new Error(e?.message);
+    //   });
+    async function fetchMovie() {
+      setIsLoading(true);
+      try {
+        const response = await fetch(
+          `http://www.omdbapi.com/?apikey=${KEY}&s=evil`
+        );
+        if (!response.ok) throw new Error("something went wrong!");
+        const data = await response.json();
+        setMovies(data.Search);
+        if (data.Response === "False") throw new Error("Movie not found!");
         setIsLoading(false);
         setError("");
-      })
-      .catch((e) => {
+      } catch (err) {
+        setError(err.message);
         setIsLoading(false);
-        setError(e?.message);
-        throw new Error(e?.message);
-      });
+      }
+    }
+    fetchMovie();
   }, []);
 
   return (
