@@ -35,6 +35,12 @@ export default function App() {
     setWatched((watched) => [...watched, movie]);
   }
 
+  function handleDeleteWatched(id) {
+    setWatched((watched) =>
+      watched.filter((m) => (m.imdbID !== id ? m : null))
+    );
+  }
+
   useEffect(() => {
     // fetch(`http://www.omdbapi.com/?apikey=${KEY}&s=evil`)
     //   .then((res) => res.json())
@@ -107,7 +113,10 @@ export default function App() {
           ) : (
             <>
               <Summary watched={watched} />
-              <WatchedMoviesList watched={watched} />
+              <WatchedMoviesList
+                watched={watched}
+                onDeleteWatched={handleDeleteWatched}
+              />
             </>
           )}
         </Box>
