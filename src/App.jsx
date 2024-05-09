@@ -11,6 +11,7 @@ import MovieList from "./components/MovieList";
 import Loader from "./components/Loader";
 import ErrorMessage from "./components/ErrorMessage";
 import MovieDetails from "./components/MovieDetails";
+import WatchedMoviesList from "./components/WatchedMoviesList";
 
 const KEY = "705b7876";
 
@@ -28,6 +29,10 @@ export default function App() {
 
   function handleCloseMovie() {
     setSelectedId(null);
+  }
+
+  function handleAddWatched(movie) {
+    setWatched((watched) => [...watched, movie]);
   }
 
   useEffect(() => {
@@ -97,11 +102,12 @@ export default function App() {
             <MovieDetails
               selectedId={selectedId}
               onCloseMovie={handleCloseMovie}
+              onAddWatched={handleAddWatched}
             />
           ) : (
             <>
               <Summary watched={watched} />
-              <MovieList movies={watched} />
+              <WatchedMoviesList watched={watched} />
             </>
           )}
         </Box>
