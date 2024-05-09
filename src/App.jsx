@@ -54,21 +54,27 @@ export default function App() {
     //     setError(e?.message);
     //     throw new Error(e?.message);
     //   });
+    const controller = new AbortController();
     async function fetchMovie() {
       try {
         setIsLoading(true);
         setError("");
         const response = await fetch(
-          `http://www.omdbapi.com/?apikey=${KEY}&s=${query}`
+          `http://www.omdbapi.com/?apikey=${KEY}&s=${query}`,
+          { signal: controller.signal }
         );
-        if (!response.ok) throw new Error("something went wrong!");
+        if (!response.ok) {
+          throw new Error("something went wrong!");
+        }
         const data = await response.json();
         setMovies(data.Search);
         if (data.Response === "False") throw new Error("Movie not found!");
         setIsLoading(false);
       } catch (err) {
-        setError(err.message);
         setIsLoading(false);
+        if (err.name !== "AbortError") {
+          setError(err.message);
+        }
       }
     }
     if (query.length < 3) {
@@ -78,6 +84,9 @@ export default function App() {
     }
 
     fetchMovie();
+    return () => {
+      controller.abort();
+    };
   }, [query]);
 
   return (
