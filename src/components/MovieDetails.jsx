@@ -64,6 +64,15 @@ function MovieDetails({ selectedId, onCloseMovie, onAddWatched, watched }) {
     getMovie();
   }, [selectedId]);
 
+  useEffect(() => {
+    if (!title) return;
+    document.title = `MOVIE | ${title}`;
+
+    return () => {
+      document.title = "usePopcorns";
+    };
+  }, [title]);
+
   return (
     <div className="details">
       {error && <ErrorMessage message={error} />}
