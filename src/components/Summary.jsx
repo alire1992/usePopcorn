@@ -1,6 +1,8 @@
 /* eslint-disable react/prop-types */
 const average = (arr) =>
-  arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
+  Math.floor(
+    arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0) * 100
+  ) / 100;
 
 function Summary({ watched }) {
   const avgImdbRating = average(watched.map((movie) => movie.imdbRating));
