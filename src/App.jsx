@@ -83,11 +83,26 @@ export default function App() {
       return;
     }
 
+    handleCloseMovie();
     fetchMovie();
+
     return () => {
       controller.abort();
     };
   }, [query]);
+
+  useEffect(() => {
+    const closeDetail = (e) => {
+      if (e.key === "Escape") {
+        handleCloseMovie();
+      }
+    };
+    document.body.addEventListener("keydown", closeDetail);
+
+    return function () {
+      document.body.removeEventListener("keydown", closeDetail);
+    };
+  }, []);
 
   return (
     <>
