@@ -17,7 +17,9 @@ const KEY = "705b7876";
 
 export default function App() {
   const [movies, setMovies] = useState([]);
-  const [watched, setWatched] = useState([]);
+  const [watched, setWatched] = useState(() =>
+    JSON.parse(localStorage.getItem("watched"))
+  );
   const [query, setQuery] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
@@ -33,13 +35,24 @@ export default function App() {
 
   function handleAddWatched(movie) {
     setWatched((watched) => [...watched, movie]);
+
+    // localStorage.setItem("watched", JSON.stringify([...watched, movie]));
   }
 
   function handleDeleteWatched(id) {
     setWatched((watched) =>
       watched.filter((m) => (m.imdbID !== id ? m : null))
     );
+    // localStorage.setItem(
+    //   "watched",
+    //   JSON.stringify(watched.filter((m) => (m.imdbID !== id ? m : null)))
+    // );
   }
+
+  // better and shorter
+  useEffect(() => {
+    localStorage.setItem("watched", JSON.stringify(watched));
+  }, [watched]);
 
   useEffect(() => {
     // fetch(`http://www.omdbapi.com/?apikey=${KEY}&s=evil`)
