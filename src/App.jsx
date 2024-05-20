@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 
 import { useMovies } from "./hooks/useMovies";
+import { useLocaleStorageState } from "./hooks/useLocaleStorageState";
 
 import NavBar from "./components/NavBar";
 import Logo from "./components/Logo";
@@ -16,12 +17,10 @@ import MovieDetails from "./components/MovieDetails";
 import WatchedMoviesList from "./components/WatchedMoviesList";
 
 export default function App() {
-  const [watched, setWatched] = useState(() =>
-    JSON.parse(localStorage.getItem("watched"))
-  );
   const [query, setQuery] = useState("");
   const [selectedId, setSelectedId] = useState(null);
   const { movies, isLoading, error } = useMovies(query, handleCloseMovie);
+  const [watched, setWatched] = useLocaleStorageState([], "watched");
 
   function handleSelectMovie(id) {
     setSelectedId((selectedId) => (selectedId === id ? null : id));
@@ -46,11 +45,6 @@ export default function App() {
     //   JSON.stringify(watched.filter((m) => (m.imdbID !== id ? m : null)))
     // );
   }
-
-  // better and shorter
-  useEffect(() => {
-    localStorage.setItem("watched", JSON.stringify(watched));
-  }, [watched]);
 
   useEffect(() => {
     const closeDetail = (e) => {
