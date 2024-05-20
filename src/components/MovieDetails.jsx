@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import StarRating from "./StarRating";
 import ErrorMessage from "./ErrorMessage";
 import Loader from "./Loader";
@@ -12,6 +12,7 @@ function MovieDetails({ selectedId, onCloseMovie, onAddWatched, watched }) {
   const [userRating, setUserRating] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
+  const countRef = useRef(0);
 
   const isWatched = watched?.map((m) => m.imdbID).includes(selectedId);
   const userRate = watched?.find((m) => m.imdbID === selectedId)?.userRating;
@@ -38,6 +39,7 @@ function MovieDetails({ selectedId, onCloseMovie, onAddWatched, watched }) {
       imdbRating: Number(imdbRating),
       runtime: Number(runtime.split(" ").at(0)),
       userRating,
+      countRatingDeisions: countRef.current,
     };
 
     onAddWatched(newWatchedMovie);
@@ -72,6 +74,10 @@ function MovieDetails({ selectedId, onCloseMovie, onAddWatched, watched }) {
       document.title = "usePopcorns";
     };
   }, [title]);
+
+  useEffect(() => {
+    if (userRating) countRef.current += 1;
+  }, [userRating]);
 
   return (
     <div className="details">
