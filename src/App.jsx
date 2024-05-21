@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import { useMovies } from "./hooks/useMovies";
+import { useKey } from "./hooks/useKey";
 import { useLocaleStorageState } from "./hooks/useLocaleStorageState";
 
 import NavBar from "./components/NavBar";
@@ -46,18 +47,7 @@ export default function App() {
     // );
   }
 
-  useEffect(() => {
-    const closeDetail = (e) => {
-      if (e.key === "Escape") {
-        handleCloseMovie();
-      }
-    };
-    document.body.addEventListener("keydown", closeDetail);
-
-    return function () {
-      document.body.removeEventListener("keydown", closeDetail);
-    };
-  }, []);
+  useKey("Escape", handleCloseMovie);
 
   return (
     <>
